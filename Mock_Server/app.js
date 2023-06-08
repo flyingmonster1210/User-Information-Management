@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid')
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 4000
 
 
 app.listen(port, () => {
@@ -33,6 +33,8 @@ let user = [
 
 app.post('/login/verify', (req, res) => {
   // console.log(req.query)
+
+  res.header('Access-Control-Allow-Origin', '*')
 
   const { username, password } = req.query
   let response = {

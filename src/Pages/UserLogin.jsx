@@ -37,8 +37,8 @@ class UserLoginComponent extends Component {
         username,
         password
       )
-      console.log(response)
-      if (response & (response.statue === 200)) {
+      console.log('response', response)
+      if (response && response.status === 200) {
         if (response.data.success) {
           AuthenticationService.loginForJwt(username, response.data.uuid)
           window.location.href = '/admin'
