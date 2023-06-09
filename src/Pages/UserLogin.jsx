@@ -1,8 +1,6 @@
 import { Col, Row, Card, Button, Checkbox, Form, Input, message } from 'antd'
 import { Component } from 'react'
-import LOGO from '../assets/logo-social.png'
-import LOGO1 from '../assets/logo.svg'
-import LOGO2 from '../assets/logo.png'
+import LOGO from '../assets/react-logo.png'
 import AuthenticationService from '../Services/AuthenticationService'
 
 class UserLoginComponent extends Component {
@@ -30,7 +28,6 @@ class UserLoginComponent extends Component {
   }
 
   onClickSignUp = async (event) => {
-    // event.preventDefault()
     const { username, password } = this.state
     try {
       const response = await AuthenticationService.executedAuthentiationService(
@@ -41,7 +38,10 @@ class UserLoginComponent extends Component {
       if (response && response.status === 200) {
         if (response.data.success) {
           AuthenticationService.loginForJwt(username, response.data.uuid)
+          message.success('Successfully login!')
           window.location.href = '/admin'
+        } else {
+          message.error('Please double-check your username and password.', 5)
         }
       }
     } catch (error) {
@@ -63,7 +63,7 @@ class UserLoginComponent extends Component {
       <Row justify={'center'}>
         <Col span={8}>
           <img
-            src={LOGO1}
+            src={LOGO}
             style={{
               display: 'block',
               margin: '40px',
