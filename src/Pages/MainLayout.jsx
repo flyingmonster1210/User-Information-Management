@@ -7,62 +7,11 @@ import {
   DownOutlined,
   SmileOutlined,
 } from '@ant-design/icons'
-import { Button, Layout, Menu, theme, Dropdown, Space } from 'antd'
+import { Modal, Button, Layout, Menu, theme, Dropdown, Space } from 'antd'
 import MenuItem from 'antd/es/menu/MenuItem'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import LOGO from '../assets/react-logo.png'
 import AuthenticationService from '../Services/AuthenticationService'
-
-const menuItems = [
-  {
-    key: '1',
-    icon: <UserOutlined />,
-    label: 'nav 1',
-    children: [
-      {
-        key: 'child1',
-        icon: <UserOutlined />,
-        label: 'nav 1',
-      },
-    ],
-  },
-  {
-    key: '2',
-    icon: <VideoCameraOutlined />,
-    label: 'nav 2',
-  },
-  {
-    key: '3',
-    icon: <UploadOutlined />,
-    label: 'nav 3',
-  },
-]
-const items = [
-  {
-    key: '1',
-    label: (
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://www.antgroup.com"
-      >
-        1st menu item
-      </a>
-    ),
-  },
-  {
-    key: '2',
-    label: (
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://www.aliyun.com"
-      >
-        2nd menu item
-      </a>
-    ),
-  },
-]
 
 const { Header, Sider, Content } = Layout
 
@@ -70,11 +19,69 @@ const { Header, Sider, Content } = Layout
 //   if (!AuthenticationService.isUserLoggedIn()) window.location.href = '/login'
 // }
 
-const App = () => {
+const MainLayout = () => {
   const [collapsed, setCollapsed] = useState(false)
   const {
     token: { colorBgContainer },
   } = theme.useToken()
+
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const showModal = () => {
+    setIsModalOpen(true)
+  }
+  const handleOk = () => {
+    setIsModalOpen(false)
+    AuthenticationService.logout()
+    window.location.href = '/login'
+  }
+  const handleCancel = () => {
+    setIsModalOpen(false)
+  }
+
+  const menuItems = [
+    {
+      key: '1',
+      icon: <UserOutlined />,
+      label: 'nav 1',
+      children: [
+        {
+          key: 'child1',
+          icon: <UserOutlined />,
+          label: 'nav 1',
+        },
+      ],
+    },
+    {
+      key: '2',
+      icon: <VideoCameraOutlined />,
+      label: 'nav 2',
+    },
+    {
+      key: '3',
+      icon: <UploadOutlined />,
+      label: 'nav 3',
+    },
+  ]
+  const items = [
+    {
+      key: '1',
+      label: (
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.antgroup.com"
+        >
+          Account center
+        </a>
+      ),
+    },
+    {
+      key: '2',
+      danger: true,
+      label: <span onClick={showModal}>Logout</span>,
+    },
+  ]
+
   return (
     <Layout
       style={{
@@ -137,6 +144,22 @@ const App = () => {
                 </Space>
               </a>
             </Dropdown>
+            <Modal
+              // title="Basic Modal"
+              open={isModalOpen}
+              onOk={handleOk}
+              onCancel={handleCancel}
+              footer={[
+                <Button key="logoutNo" onClick={handleCancel}>
+                  No
+                </Button>,
+                <Button key="logoutYes" onClick={handleOk} danger>
+                  Yes
+                </Button>,
+              ]}
+            >
+              <p>Are you sure you want to log out?</p>
+            </Modal>
           </span>
         </Header>
         <Content
@@ -153,4 +176,4 @@ const App = () => {
     </Layout>
   )
 }
-export default App
+export default MainLayout
