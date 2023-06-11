@@ -12,7 +12,7 @@ import MenuItem from 'antd/es/menu/MenuItem'
 import { useEffect, useState } from 'react'
 import LOGO from '../assets/react-logo.png'
 import AuthenticationService from '../Services/AuthenticationService'
-import { useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 
 const { Header, Sider, Content } = Layout
 
@@ -157,7 +157,7 @@ const MainLayout = () => {
             background: colorBgContainer,
           }}
         >
-          Content
+          <Outlet />
         </Content>
       </Layout>
     </Layout>

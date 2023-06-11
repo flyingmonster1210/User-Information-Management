@@ -12,7 +12,7 @@ function App () {
         <Route path='/' element={<Test />} ></Route>
         <Route path='/login' element={<UserLoginComponent />} ></Route>
         <Route path='/admin' element={<MainLayout />} >
-          <Route path='/admin/userList' element={<UserList />}></Route>
+          <Route index element={<UserList />}></Route>
         </Route>
         {/* <Route path='/userList' element={<UserList />}></Route> */}
 
