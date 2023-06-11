@@ -22,7 +22,7 @@ const UserLoginComponent = () => {
           AuthenticationService.loginForJwt(username, response.data.uuid)
           message.success('Successfully login!')
           // window.location.href = '/admin'
-          navigate('/admin', { replace: false })
+          navigate('/', { replace: false })
         } else {
           console.log('onFinish Failed:', values)
           message.error('Please double-check your username and password.', 3)
