@@ -1,5 +1,18 @@
+import MyBreadcrumb from '../Components/MyBreadcrumb'
+
 function EditUser() {
-  return <div>This is a page for editing user information.</div>
+  const routeItem = [
+    {
+      title: 'Add new user',
+      href: '/editUser',
+    },
+  ]
+
+  return (
+    <>
+      <MyBreadcrumb items={routeItem} />
+    </>
+  )
 }
 
 export default EditUser

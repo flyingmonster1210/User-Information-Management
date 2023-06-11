@@ -8,11 +8,11 @@ import {
   SmileOutlined,
 } from '@ant-design/icons'
 import { Modal, Button, Layout, Menu, theme, Dropdown, Space } from 'antd'
-import MenuItem from 'antd/es/menu/MenuItem'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import LOGO from '../assets/react-logo.png'
 import AuthenticationService from '../Services/AuthenticationService'
-import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import MyBreadcrumb from '../Components/MyBreadcrumb'
 
 const { Header, Sider, Content } = Layout
 
@@ -38,6 +38,7 @@ const MainLayout = () => {
   }
 
   const location = useLocation()
+  const currentKey = location.pathname === '/' ? 'showAllUsers' : 'editUser'
 
   const directByKey = ({ key }) => {
     // console.log('key:', key)
@@ -103,10 +104,8 @@ const MainLayout = () => {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={
-            location.pathname === '/' ? 'showAllUsers' : 'editUser'
-          }
-          selectedKeys={location.pathname === '/' ? 'showAllUsers' : 'editUser'}
+          defaultSelectedKeys={currentKey}
+          selectedKeys={currentKey}
           onClick={directByKey}
           items={menuItems}
         />
