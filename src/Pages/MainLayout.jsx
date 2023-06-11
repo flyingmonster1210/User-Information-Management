@@ -39,26 +39,14 @@ const MainLayout = () => {
 
   const menuItems = [
     {
-      key: '1',
+      key: 'showAllUsers',
       icon: <UserOutlined />,
-      label: 'nav 1',
-      children: [
-        {
-          key: 'child1',
-          icon: <UserOutlined />,
-          label: 'nav 1',
-        },
-      ],
+      label: 'Show all users',
     },
     {
-      key: '2',
-      icon: <VideoCameraOutlined />,
-      label: 'nav 2',
-    },
-    {
-      key: '3',
+      key: 'editUser',
       icon: <UploadOutlined />,
-      label: 'nav 3',
+      label: 'Add new user',
     },
   ]
   const items = [
