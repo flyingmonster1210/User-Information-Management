@@ -1,15 +1,7 @@
 import { Component } from 'react'
 
-class Test extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {}
-  }
-
-  render() {
-    return <div>Hello this is Test!</div>
-  }
+const Test = () => {
+  return <div>Hello this is a Test page, please go to /login</div>
 }
 
 export default Test

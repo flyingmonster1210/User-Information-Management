@@ -12,14 +12,12 @@ import MenuItem from 'antd/es/menu/MenuItem'
 import { useEffect, useState } from 'react'
 import LOGO from '../assets/react-logo.png'
 import AuthenticationService from '../Services/AuthenticationService'
+import { useNavigate } from 'react-router-dom'
 
 const { Header, Sider, Content } = Layout
 
-// window.onload = () => {
-//   if (!AuthenticationService.isUserLoggedIn()) window.location.href = '/login'
-// }
-
 const MainLayout = () => {
+  const navigate = useNavigate()
   const [collapsed, setCollapsed] = useState(false)
   const {
     token: { colorBgContainer },
@@ -32,6 +30,7 @@ const MainLayout = () => {
   const handleOk = () => {
     setIsModalOpen(false)
     AuthenticationService.logout()
+    navigate('/login')
     window.location.href = '/login'
   }
   const handleCancel = () => {
