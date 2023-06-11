@@ -12,7 +12,7 @@ import MenuItem from 'antd/es/menu/MenuItem'
 import { useEffect, useState } from 'react'
 import LOGO from '../assets/react-logo.png'
 import AuthenticationService from '../Services/AuthenticationService'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 const { Header, Sider, Content } = Layout
 
@@ -35,6 +35,17 @@ const MainLayout = () => {
   }
   const handleCancel = () => {
     setIsModalOpen(false)
+  }
+
+  const location = useLocation()
+
+  const directByKey = ({ key }) => {
+    // console.log('key:', key)
+    if (key === 'showAllUsers') {
+      navigate('/')
+    } else {
+      navigate('/editUser')
+    }
   }
 
   const menuItems = [
@@ -92,7 +103,11 @@ const MainLayout = () => {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={['1']}
+          defaultSelectedKeys={
+            location.pathname === '/' ? 'showAllUsers' : 'editUser'
+          }
+          selectedKeys={location.pathname === '/' ? 'showAllUsers' : 'editUser'}
+          onClick={directByKey}
           items={menuItems}
         />
       </Sider>
