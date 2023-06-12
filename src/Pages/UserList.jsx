@@ -1,60 +1,45 @@
 import { Breadcrumb, Avatar, Button, List, Skeleton } from 'antd'
 import { useEffect, useState } from 'react'
+import VIP from '../assets/vip.png'
 import MyBreadcrumb from '../Components/MyBreadcrumb'
-const count = 3
-const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`
+import ShowUsersService from '../Services/ShowUsersService'
 
 const UserList = () => {
   const [initLoading, setInitLoading] = useState(true)
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [list, setList] = useState([])
+  // useEffect(() => {
+  //   const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`
+  //   fetch(fakeDataUrl)
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       setInitLoading(false)
+  //       setData(res.results)
+  //       setList(res.results)
+  //     })
+  // }, [])
+  // console.log('list', list)
+  // console.log('data', data)
+
+  let returnType = '-1'
   useEffect(() => {
-    fetch(fakeDataUrl)
-      .then((res) => res.json())
-      .then((res) => {
+    try {
+      const getUserList = async (returnType) => {
+        const response = await ShowUsersService.filterUser(returnType)
+        console.log('response:', response)
+        // console.log('test:', response.data)
+
+        console.log(response.data.userList)
+        setList(response.data.userList)
         setInitLoading(false)
-        setData(res.results)
-        setList(res.results)
-      })
-  }, [])
-  const onLoadMore = () => {
-    setLoading(true)
-    setList(
-      data.concat(
-        [...new Array(count)].map(() => ({
-          loading: true,
-          name: {},
-          picture: {},
-        }))
-      )
-    )
-    fetch(fakeDataUrl)
-      .then((res) => res.json())
-      .then((res) => {
-        const newData = data.concat(res.results)
-        setData(newData)
-        setList(newData)
-        setLoading(false)
-        // Resetting window's offsetTop so as to display react-virtualized demo underfloor.
-        // In real scene, you can using public method of react-virtualized:
-        // https://stackoverflow.com/questions/46700726/how-to-use-public-method-updateposition-of-react-virtualized
-        window.dispatchEvent(new Event('resize'))
-      })
-  }
-  const loadMore =
-    !initLoading && !loading ? (
-      <div
-        style={{
-          textAlign: 'center',
-          marginTop: 12,
-          height: 32,
-          lineHeight: '32px',
-        }}
-      >
-        <Button onClick={onLoadMore}>loading more</Button>
-      </div>
-    ) : null
+      }
+
+      getUserList(returnType)
+    } catch (error) {
+      console.log('catch error:', error)
+    }
+  }, [returnType])
 
   const routeItem = [
     {
@@ -69,7 +54,6 @@ const UserList = () => {
         className="demo-loadmore-list"
         loading={initLoading}
         itemLayout="horizontal"
-        loadMore={loadMore}
         dataSource={list}
         renderItem={(item) => (
           <List.Item
@@ -80,11 +64,23 @@ const UserList = () => {
           >
             <Skeleton avatar title={false} loading={item.loading} active>
               <List.Item.Meta
-                avatar={<Avatar src={item.picture.large} />}
-                title={<a href="https://ant.design">{item.name?.last}</a>}
-                description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                avatar={item.username}
+                title={'Introduction of ' + item.username}
+                description={item.intro || 'Nothing here!'}
               />
-              <div>content</div>
+              <div>
+                {item.vip ? (
+                  <img
+                    src={VIP}
+                    style={{
+                      maxHeight: '20px',
+                      maxWidth: '20px',
+                    }}
+                  />
+                ) : (
+                  <></>
+                )}
+              </div>
             </Skeleton>
           </List.Item>
         )}

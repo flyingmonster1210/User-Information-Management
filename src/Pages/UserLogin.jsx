@@ -15,13 +15,12 @@ const UserLoginComponent = () => {
         username,
         password
       )
-      // console.log('onFinish response:', response)
+      console.log('onFinish response:', response)
       if (response && response.status === 200) {
         if (response.data.success) {
           // console.log('onFinish Success:', values)
           AuthenticationService.loginForJwt(username, response.data.uuid)
           message.success('Successfully login!')
-          // window.location.href = '/admin'
           navigate('/', { replace: false })
         } else {
           console.log('onFinish Failed:', values)

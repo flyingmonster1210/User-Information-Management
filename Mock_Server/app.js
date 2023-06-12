@@ -14,28 +14,36 @@ let allUsers = [
     username: 'user1',
     password: '123',
     age: 18,
-    vip: false
+    vip: false,
+    avatar: null,
+    intro: 'John is a passionate entrepreneur who has successfully launched several tech startups, with expertise in software development and product management.'
   },
   {
     id: 2,
     username: 'user2',
     password: '123',
     age: 29,
-    vip: true
+    vip: true,
+    avatar: null,
+    intro: 'Sarah is a dedicated educator with a strong background in mathematics, inspiring students to explore the world of numbers and problem-solving.'
   },
   {
     id: 3,
     username: 'user3',
     password: '123',
     age: 38,
-    vip: true
+    vip: true,
+    avatar: null,
+    intro: 'Lisa is a talented artist specializing in oil paintings, known for her vibrant use of color and capturing the essence of landscapes and nature.'
   },
   {
     id: 4,
     username: 'user4',
     password: '123',
     age: 20,
-    vip: false
+    vip: false,
+    avatar: null,
+    intro: 'Mark is a seasoned financial analyst with a deep understanding of market trends, providing strategic advice to clients and helping them make informed investment decisions.'
   }
 ]
 
@@ -102,14 +110,14 @@ app.post('/filter', (req, res) => {
 
   if (returnType) {
     let userList = filterFunc(returnType)
-    console.log('userList', userList)
 
     if (userList && userList.length > 0) {
       response.success = true
       response.userList = userList
     }
   }
-
+  console.log(new Date())
+  console.log(response)
   res.send(response)
 })
 
