@@ -9,18 +9,6 @@ const UserList = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [list, setList] = useState([])
-  // useEffect(() => {
-  //   const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`
-  //   fetch(fakeDataUrl)
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       setInitLoading(false)
-  //       setData(res.results)
-  //       setList(res.results)
-  //     })
-  // }, [])
-  // console.log('list', list)
-  // console.log('data', data)
 
   let returnType = '-1'
   useEffect(() => {
@@ -59,12 +47,12 @@ const UserList = () => {
           <List.Item
             actions={[
               <a key="list-loadmore-edit">edit</a>,
-              <a key="list-loadmore-more">more</a>,
+              <a key="list-loadmore-more">remove</a>,
             ]}
           >
             <Skeleton avatar title={false} loading={item.loading} active>
               <List.Item.Meta
-                avatar={item.username}
+                avatar={item.username + '.png'}
                 title={'Introduction of ' + item.username}
                 description={item.intro || 'Nothing here!'}
               />

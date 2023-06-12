@@ -58,7 +58,7 @@ const MainLayout = () => {
     {
       key: 'editUser',
       icon: <UploadOutlined />,
-      label: 'Add new user',
+      label: 'Add/Edit user',
     },
   ]
   const items = [
@@ -84,8 +84,8 @@ const MainLayout = () => {
   return (
     <Layout
       style={{
-        height: '100vh',
-        width: '100vw',
+        minHeight: '100vh',
+        minWidth: '100vw',
       }}
     >
       <Sider trigger={null} collapsible collapsed={collapsed}>
