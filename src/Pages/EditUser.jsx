@@ -16,7 +16,7 @@ import {
   Upload,
 } from 'antd'
 import { useState } from 'react'
-const { RangePicker } = DatePicker
+
 const { TextArea } = Input
 const normFile = (e) => {
   if (Array.isArray(e)) {
@@ -31,23 +31,17 @@ const EditUser = () => {
       href: '/editUser',
     },
   ]
-  const [componentDisabled, setComponentDisabled] = useState(true)
+
+  const onFinish = (event) => {
+    console.log('event', event)
+  }
+
   return (
-    <div
-      style={
-        {
-          // maxHeight: '200px'
-        }
-      }
-    >
+    <div>
       <MyBreadcrumb items={routeItem} />
-      <Checkbox
-        checked={componentDisabled}
-        onChange={(e) => setComponentDisabled(e.target.checked)}
-      >
-        Form disabled
-      </Checkbox>
+
       <Form
+        onFinish={onFinish}
         labelCol={{
           span: 4,
         }}
@@ -55,75 +49,30 @@ const EditUser = () => {
           span: 14,
         }}
         layout="horizontal"
-        disabled={componentDisabled}
         style={{
           maxWidth: 600,
         }}
       >
-        <Form.Item label="Checkbox" name="disabled" valuePropName="checked">
-          <Checkbox>Checkbox</Checkbox>
-        </Form.Item>
-        <Form.Item label="Radio">
-          <Radio.Group>
-            <Radio value="apple"> Apple </Radio>
-            <Radio value="pear"> Pear </Radio>
-          </Radio.Group>
-        </Form.Item>
-        <Form.Item label="Input">
+        <Form.Item label="Usename" name="usename" initialValue="username">
           <Input />
         </Form.Item>
-        <Form.Item label="Select">
-          <Select>
-            <Select.Option value="demo">Demo</Select.Option>
-          </Select>
+        <Form.Item label="Password" name="password" initialValue="password">
+          <Input />
         </Form.Item>
-        <Form.Item label="TreeSelect">
-          <TreeSelect
-            treeData={[
-              {
-                title: 'Light',
-                value: 'light',
-                children: [
-                  {
-                    title: 'Bamboo',
-                    value: 'bamboo',
-                  },
-                ],
-              },
-            ]}
-          />
-        </Form.Item>
-        <Form.Item label="Cascader">
-          <Cascader
-            options={[
-              {
-                value: 'zhejiang',
-                label: 'Zhejiang',
-                children: [
-                  {
-                    value: 'hangzhou',
-                    label: 'Hangzhou',
-                  },
-                ],
-              },
-            ]}
-          />
-        </Form.Item>
-        <Form.Item label="DatePicker">
-          <DatePicker />
-        </Form.Item>
-        <Form.Item label="RangePicker">
-          <RangePicker />
-        </Form.Item>
-        <Form.Item label="InputNumber">
+        <Form.Item label="Age" name="age" initialValue="20">
           <InputNumber />
         </Form.Item>
-        <Form.Item label="TextArea">
+        <Form.Item label="VIP" name="isVip" initialValue="Yes">
+          <Radio.Group>
+            <Radio value="Yes"> Yes </Radio>
+            <Radio value="No"> No </Radio>
+          </Radio.Group>
+        </Form.Item>
+
+        <Form.Item label="Intro" name="intro" initialValue="A brief intro">
           <TextArea rows={4} />
         </Form.Item>
-        <Form.Item label="Switch" valuePropName="checked">
-          <Switch />
-        </Form.Item>
+
         <Form.Item
           label="Upload"
           valuePropName="fileList"
@@ -142,8 +91,8 @@ const EditUser = () => {
             </div>
           </Upload>
         </Form.Item>
-        <Form.Item label="Button">
-          <Button>Button</Button>
+        <Form.Item label="Submit">
+          <Button htmlType="submit">Submit</Button>
         </Form.Item>
       </Form>
     </div>
