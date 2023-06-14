@@ -33,7 +33,15 @@ const EditUser = () => {
   ]
 
   const onFinish = (event) => {
-    console.log('event', event)
+    console.log(event)
+    const { age, intro, isVip, password, username } = event
+    const thisUser = {
+      age,
+      intro,
+      isVip,
+      password,
+      username,
+    }
   }
 
   return (

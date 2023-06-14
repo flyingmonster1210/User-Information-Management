@@ -2,6 +2,7 @@ const { v4: uuidv4 } = require('uuid')
 const express = require('express')
 const app = express()
 const port = 4000
+const bodyParser = require('body-parser').json()
 
 
 app.listen(port, () => {
@@ -13,7 +14,7 @@ let allUsers = [
     id: 1,
     username: 'user1',
     password: '123',
-    age: 18,
+    age: '18',
     vip: false,
     avatar: null,
     intro: 'John is a passionate entrepreneur who has successfully launched several tech startups, with expertise in software development and product management.'
@@ -22,7 +23,7 @@ let allUsers = [
     id: 2,
     username: 'user2',
     password: '123',
-    age: 29,
+    age: '29',
     vip: true,
     avatar: null,
     intro: 'Sarah is a dedicated educator with a strong background in mathematics, inspiring students to explore the world of numbers and problem-solving.'
@@ -31,7 +32,7 @@ let allUsers = [
     id: 3,
     username: 'user3',
     password: '123',
-    age: 38,
+    age: '38',
     vip: true,
     avatar: null,
     intro: 'Lisa is a talented artist specializing in oil paintings, known for her vibrant use of color and capturing the essence of landscapes and nature.'
@@ -40,7 +41,7 @@ let allUsers = [
     id: 4,
     username: 'user4',
     password: '123',
-    age: 20,
+    age: '20',
     vip: false,
     avatar: null,
     intro: 'Mark is a seasoned financial analyst with a deep understanding of market trends, providing strategic advice to clients and helping them make informed investment decisions.'
@@ -121,7 +122,30 @@ app.post('/filter', (req, res) => {
   res.send(response)
 })
 
+app.put('/update', bodyParser, (req, res) => {
 
+  res.header('Access-Control-Allow-Origin', '*')
+
+  let response = {
+    success: false,
+    thisUser: null,
+  }
+
+  const body = req.body
+  if (body) {
+    const index = allUsers.findIndex(item => item.id === body.id)
+    console.log('index:', index)
+    if (index >= 0) {
+      allUsers[index] = body
+      response.success = true
+      response.thisUser = allUsers[index]
+    }
+  }
+
+  console.log('req.body:', req.body)
+
+  res.send(response)
+})
 
 
 
