@@ -39,7 +39,7 @@ class AuthenticationServie {
 
   executedAuthentiationService (username, password) {
     // return ApiService.post('/login', { username, password })
-    return ApiService.post('http://localhost:4000/login/verify', { username, password })
+    return ApiService.get('http://localhost:4000/login/verify', { username, password })
   }
 
   logout () {

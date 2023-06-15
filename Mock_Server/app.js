@@ -67,7 +67,7 @@ app.use(cors({
   origin: 'http://localhost:3000'
 }))
 
-app.post('/login/verify', (req, res) => {
+app.get('/login/verify', (req, res) => {
   const { username, password } = req.query
   let response = {
     success: false,
@@ -87,10 +87,17 @@ app.post('/login/verify', (req, res) => {
   res.send(response)
 })
 
-app.post('/filter', (req, res) => {
+app.get('/filter', (req, res) => {
 
   const filterFunc = (flag) => {
     let userList = []
+    /*
+      returnType: 
+        '-1' return all users,
+         '0' return normal users,
+         '1' return VIP
+    */
+    // console.log(req.query)
 
     switch (flag) {
       case '-1':
@@ -109,13 +116,6 @@ app.post('/filter', (req, res) => {
     return userList
   }
 
-  /*
-    returnType: 
-      '-1' return all users,
-       '0' return normal users,
-       '1' return VIP
-  */
-  // console.log(req.query)
   const { returnType } = req.query
   let response = {
     success: false,
@@ -145,7 +145,7 @@ app.put('/update', bodyParser, (req, res) => {
   const body = req.body
   if (body) {
     const index = allUsers.findIndex(item => item.id === body.id)
-    console.log('index:', index)
+    // console.log('index:', index)
     if (index >= 0) {
       allUsers[index] = body
       response.success = true
@@ -153,7 +153,7 @@ app.put('/update', bodyParser, (req, res) => {
     }
   }
 
-  console.log('req.body:', req.body)
+  // console.log('req.body:', req.body)
 
   res.send(response)
 })
