@@ -19,7 +19,7 @@ class ApiService {
       method: 'post',
       baseURL: API_BASE_URL, url,
       timeout: 5000,
-      params: data,
+      data: data,
       headers: {
 
       }

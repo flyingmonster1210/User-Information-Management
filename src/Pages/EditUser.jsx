@@ -15,9 +15,10 @@ import {
   TreeSelect,
   Upload,
 } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AuthenticationService from '../Services/AuthenticationService'
 import EditUserService from '../Services/EditUserService'
+import { useSearchParams } from 'react-router-dom'
 
 const { TextArea } = Input
 const normFile = (e) => {
@@ -26,10 +27,23 @@ const normFile = (e) => {
   }
   return e?.fileList
 }
-const EditUser = () => {
+const EditUser = (props) => {
+  const [params] = useSearchParams()
+  const [isAddingUser, setIsAddingUser] = useState(params.get('isAddingUser'))
+  // const [isAddingUser, setIsAddingUser] = useState(
+  //   Object.keys(props).length > 0 ? props.isAddingUser : true
+  // )
+  console.log(params)
+  console.log(isAddingUser)
+  useEffect(() => {
+    setIsAddingUser(params.get('isAddingUser'))
+  }, [params.get('isAddingUser')])
+
   const routeItem = [
     {
-      title: 'Add new user',
+      title: isAddingUser
+        ? 'Add a new user'
+        : 'Edit user ' + AuthenticationService.getLoggedUserName(),
       href: '/editUser',
     },
   ]

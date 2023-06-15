@@ -158,6 +158,31 @@ app.put('/update', bodyParser, (req, res) => {
   res.send(response)
 })
 
+app.post('/add', bodyParser, (req, res) => {
+  const response = {
+    success: false,
+    thisNewUser: null,
+  }
+
+  const body = req.body
+  // console.log('body:', body)
+  if (Object.keys(body).length > 0) {
+    response.thisNewUser = {
+      id: uuidv4(),
+      username: body.username,
+      password: body.password,
+      age: body.age,
+      vip: body.vip,
+      avator: body.avator ? body.avator : null,
+      intro: body.intro,
+    }
+  }
+  allUsers.push(response.thisNewUser)
+  console.log(allUsers)
+
+  res.send(response)
+})
+
 
 
 

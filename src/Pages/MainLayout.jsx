@@ -11,8 +11,7 @@ import { Modal, Button, Layout, Menu, theme, Dropdown, Space } from 'antd'
 import { useState } from 'react'
 import LOGO from '../assets/react-logo.png'
 import AuthenticationService from '../Services/AuthenticationService'
-import { Outlet, useLocation, useNavigate } from 'react-router-dom'
-import MyBreadcrumb from '../Components/MyBreadcrumb'
+import { Outlet, useLocation, useNavigate, Link } from 'react-router-dom'
 
 const { Header, Sider, Content } = Layout
 
@@ -33,6 +32,11 @@ const MainLayout = (props) => {
   const showModal = () => {
     setIsModalOpen(true)
   }
+  const changeShowAddUser = () => {
+    setShowAddUser(false)
+    navigate('/')
+    navigate('/editUser/?isAddingUser=false')
+  }
   const handleOk = () => {
     setIsModalOpen(false)
     AuthenticationService.logout()
@@ -49,9 +53,10 @@ const MainLayout = (props) => {
   const directByKey = ({ key }) => {
     // console.log('key:', key)
     if (key === 'showAllUsers') {
+      setShowAddUser(true)
       navigate('/')
     } else {
-      navigate('/editUser')
+      navigate('/editUser/?isAddingUser=true')
     }
   }
 
@@ -64,20 +69,17 @@ const MainLayout = (props) => {
     {
       key: 'editUser',
       icon: <UploadOutlined />,
-      label: showAddUser === true ? 'Add user' : 'Edit user',
+      label: showAddUser === true ? 'Add a new user' : 'Edit user',
     },
   ]
   const items = [
     {
       key: '1',
       label: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.antgroup.com"
-        >
-          Account center
-        </a>
+        // <Link to="/editUser/?isAddingUser=false" onClick={changeShowAddUser}>
+        //   Account centre
+        // </Link>
+        <span onClick={changeShowAddUser}>Account Centre</span>
       ),
     },
     {
