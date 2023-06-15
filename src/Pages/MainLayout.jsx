@@ -12,17 +12,14 @@ import { useState } from 'react'
 import LOGO from '../assets/react-logo.png'
 import AuthenticationService from '../Services/AuthenticationService'
 import { Outlet, useLocation, useNavigate, Link } from 'react-router-dom'
+import { observer } from 'mobx-react-lite'
+import isAddingUserStore from '../Store/isAddingUserStore'
 
 const { Header, Sider, Content } = Layout
 
 const MainLayout = (props) => {
   const navigate = useNavigate()
   const [collapsed, setCollapsed] = useState(false)
-  const [showAddUser, setShowAddUser] = useState(
-    Object.keys(props).length > 0 ? props.showAddUser : true
-  )
-  // console.log('props:', props, Object.keys(props).length)
-  // console.log('showAddUser:', showAddUser)
 
   const {
     token: { colorBgContainer },
@@ -33,8 +30,8 @@ const MainLayout = (props) => {
     setIsModalOpen(true)
   }
   const changeShowAddUser = () => {
-    setShowAddUser(false)
-    navigate('/editUser/?isAddingUser=false')
+    isAddingUserStore.changeMode(false)
+    navigate('/editUser/?id=123')
   }
   const handleOk = () => {
     setIsModalOpen(false)
@@ -50,12 +47,11 @@ const MainLayout = (props) => {
   const currentKey = location.pathname === '/' ? 'showAllUsers' : 'editUser'
 
   const directByKey = ({ key }) => {
-    // console.log('key:', key)
+    isAddingUserStore.changeMode(true)
     if (key === 'showAllUsers') {
-      setShowAddUser(true)
       navigate('/')
     } else {
-      navigate('/editUser/?isAddingUser=true')
+      navigate('/editUser/')
     }
   }
 
@@ -69,8 +65,10 @@ const MainLayout = (props) => {
       key: 'editUser',
       icon: <UploadOutlined />,
       label: (
-        <span onClick={() => setShowAddUser(true)}>
-          {showAddUser === true ? 'Add a new user' : 'Edit user'}
+        <span>
+          {isAddingUserStore.isAddingUser === true
+            ? 'Add a new user'
+            : 'Edit user'}
         </span>
       ),
     },
@@ -183,4 +181,4 @@ const MainLayout = (props) => {
     </Layout>
   )
 }
-export default MainLayout
+export default observer(MainLayout)

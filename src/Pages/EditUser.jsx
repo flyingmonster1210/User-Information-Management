@@ -19,6 +19,8 @@ import { useEffect, useState } from 'react'
 import AuthenticationService from '../Services/AuthenticationService'
 import EditUserService from '../Services/EditUserService'
 import { useSearchParams } from 'react-router-dom'
+import { observer } from 'mobx-react-lite'
+import isAddingUserStore from '../Store/isAddingUserStore'
 
 const { TextArea } = Input
 const normFile = (e) => {
@@ -27,19 +29,14 @@ const normFile = (e) => {
   }
   return e?.fileList
 }
-const EditUser = (props) => {
+const EditUser = () => {
   const [params] = useSearchParams()
-  const [isAddingUser, setIsAddingUser] = useState(params.get('isAddingUser'))
-
-  console.log('isAddingUser:', isAddingUser)
-  useEffect(() => {
-    setIsAddingUser(params.get('isAddingUser'))
-  }, [params.get('isAddingUser')])
+  const id = params.get('id')
+  console.log(id)
 
   const routeItem = [
     {
-      title: isAddingUser ? 'Add a new user' : 'Edit user ',
-      href: '/editUser',
+      title: id && id !== null ? 'Edit user: xxx' : 'Add a new user',
     },
   ]
 
@@ -82,7 +79,11 @@ const EditUser = (props) => {
           maxWidth: 600,
         }}
       >
-        <Form.Item label="Username" name="username" initialValue="username">
+        <Form.Item
+          label="Username"
+          name="username"
+          initialValue={id && id !== null ? 'with id' : 'without id'}
+        >
           <Input />
         </Form.Item>
         <Form.Item label="Password" name="password" initialValue="password">
@@ -127,4 +128,4 @@ const EditUser = (props) => {
     </div>
   )
 }
-export default () => <EditUser />
+export default observer(() => <EditUser />)
