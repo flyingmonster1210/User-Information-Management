@@ -34,7 +34,6 @@ const MainLayout = (props) => {
   }
   const changeShowAddUser = () => {
     setShowAddUser(false)
-    navigate('/')
     navigate('/editUser/?isAddingUser=false')
   }
   const handleOk = () => {
@@ -69,18 +68,17 @@ const MainLayout = (props) => {
     {
       key: 'editUser',
       icon: <UploadOutlined />,
-      label: showAddUser === true ? 'Add a new user' : 'Edit user',
+      label: (
+        <span onClick={() => setShowAddUser(true)}>
+          {showAddUser === true ? 'Add a new user' : 'Edit user'}
+        </span>
+      ),
     },
   ]
   const items = [
     {
       key: '1',
-      label: (
-        // <Link to="/editUser/?isAddingUser=false" onClick={changeShowAddUser}>
-        //   Account centre
-        // </Link>
-        <span onClick={changeShowAddUser}>Account Centre</span>
-      ),
+      label: <span onClick={changeShowAddUser}>Account Centre</span>,
     },
     {
       key: '2',

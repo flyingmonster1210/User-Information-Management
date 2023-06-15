@@ -30,20 +30,15 @@ const normFile = (e) => {
 const EditUser = (props) => {
   const [params] = useSearchParams()
   const [isAddingUser, setIsAddingUser] = useState(params.get('isAddingUser'))
-  // const [isAddingUser, setIsAddingUser] = useState(
-  //   Object.keys(props).length > 0 ? props.isAddingUser : true
-  // )
-  console.log(params)
-  console.log(isAddingUser)
+
+  console.log('isAddingUser:', isAddingUser)
   useEffect(() => {
     setIsAddingUser(params.get('isAddingUser'))
   }, [params.get('isAddingUser')])
 
   const routeItem = [
     {
-      title: isAddingUser
-        ? 'Add a new user'
-        : 'Edit user ' + AuthenticationService.getLoggedUserName(),
+      title: isAddingUser ? 'Add a new user' : 'Edit user ',
       href: '/editUser',
     },
   ]
