@@ -2,6 +2,7 @@ import ApiService from './ApiService.js'
 
 export const USER_NAME_SESSION_NAME = 'authenticatedUser'
 export const JWT_TOKEN_SESSION_NAME = 'authenticatedJWT'
+export const USER_ID_SESSION_NAME = 'thisUserID'
 
 class AuthenticationServie {
   isUserLoggedIn () {
@@ -10,9 +11,10 @@ class AuthenticationServie {
     else { return true }
   }
 
-  loginForJwt (username, jwt) {
+  loginForJwt (username, jwt, userID) {
     localStorage.setItem(USER_NAME_SESSION_NAME, username)
     localStorage.setItem(JWT_TOKEN_SESSION_NAME, jwt)
+    localStorage.setItem(USER_ID_SESSION_NAME, userID)
   }
 
   getLoggedUserName () {

@@ -19,7 +19,11 @@ const UserLoginComponent = () => {
       if (response && response.status === 200) {
         if (response.data.success) {
           // console.log('onFinish Success:', values)
-          AuthenticationService.loginForJwt(username, response.data.uuid)
+          AuthenticationService.loginForJwt(
+            username,
+            response.data.uuid,
+            response.data.thisUser[0].id
+          )
           message.success('Successfully login!')
           navigate('/', { replace: false })
         } else {

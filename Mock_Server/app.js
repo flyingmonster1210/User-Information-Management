@@ -1,9 +1,9 @@
 const { v4: uuidv4 } = require('uuid')
 const express = require('express')
 const app = express()
+const cors = require('cors')
 const port = 4000
 const bodyParser = require('body-parser').json()
-
 
 app.listen(port, () => {
   console.log(`Mock Server is listening on port ${port}`)
@@ -48,11 +48,17 @@ let allUsers = [
   }
 ]
 
+app.use((req, res, next) => {
+  console.log(new Date())
+  console.log(`${req.method} ${req.url}`)
+  next()
+})
+
+app.use(cors({
+  origin: 'http://localhost:3000'
+}))
+
 app.post('/login/verify', (req, res) => {
-  // console.log(req.query)
-
-  res.header('Access-Control-Allow-Origin', '*')
-
   const { username, password } = req.query
   let response = {
     success: false,
@@ -94,8 +100,6 @@ app.post('/filter', (req, res) => {
     return userList
   }
 
-  res.header('Access-Control-Allow-Origin', '*')
-
   /*
     returnType: 
       '-1' return all users,
@@ -123,8 +127,6 @@ app.post('/filter', (req, res) => {
 })
 
 app.put('/update', bodyParser, (req, res) => {
-
-  res.header('Access-Control-Allow-Origin', '*')
 
   let response = {
     success: false,

@@ -16,6 +16,7 @@ import {
   Upload,
 } from 'antd'
 import { useState } from 'react'
+import EditUserService from '../Services/EditUserService'
 
 const { TextArea } = Input
 const normFile = (e) => {
@@ -36,12 +37,18 @@ const EditUser = () => {
     console.log(event)
     const { age, intro, isVip, password, username } = event
     const thisUser = {
-      age,
-      intro,
-      isVip,
-      password,
-      username,
+      // id:
+      age: age,
+      intro: intro,
+      isVip: isVip,
+      password: password,
+      username: username,
     }
+    const updateInfo = async (thisUser) => {
+      const res = await EditUserService.updateUserInfo(thisUser)
+      console.log(res)
+    }
+    updateInfo(thisUser)
   }
 
   return (
@@ -61,7 +68,7 @@ const EditUser = () => {
           maxWidth: 600,
         }}
       >
-        <Form.Item label="Usename" name="usename" initialValue="username">
+        <Form.Item label="Username" name="username" initialValue="username">
           <Input />
         </Form.Item>
         <Form.Item label="Password" name="password" initialValue="password">
