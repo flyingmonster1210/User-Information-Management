@@ -16,9 +16,15 @@ import MyBreadcrumb from '../Components/MyBreadcrumb'
 
 const { Header, Sider, Content } = Layout
 
-const MainLayout = () => {
+const MainLayout = (props) => {
   const navigate = useNavigate()
   const [collapsed, setCollapsed] = useState(false)
+  const [showAddUser, setShowAddUser] = useState(
+    Object.keys(props).length > 0 ? props.showAddUser : true
+  )
+  // console.log('props:', props, Object.keys(props).length)
+  // console.log('showAddUser:', showAddUser)
+
   const {
     token: { colorBgContainer },
   } = theme.useToken()
@@ -58,7 +64,7 @@ const MainLayout = () => {
     {
       key: 'editUser',
       icon: <UploadOutlined />,
-      label: 'Add/Edit user',
+      label: showAddUser === true ? 'Add user' : 'Edit user',
     },
   ]
   const items = [

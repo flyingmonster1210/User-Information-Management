@@ -15,10 +15,8 @@ const UserList = () => {
     try {
       const getUserList = async (returnType) => {
         const response = await ShowUsersService.filterUser(returnType)
-        console.log('response:', response)
-        // console.log('test:', response.data)
-
-        console.log(response.data.userList)
+        // console.log('response:', response)
+        // console.log(response.data.userList)
         setList(response.data.userList)
         setInitLoading(false)
       }

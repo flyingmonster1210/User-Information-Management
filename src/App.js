@@ -12,10 +12,10 @@ function App () {
       <Routes>
         <Route path='/' element={
           <CheckAuthentication>
-            <MainLayout />
+            <MainLayout showAddUser={true} />
           </CheckAuthentication>
         }>
-          <Route index element={<UserList />}></Route>
+          <Route index element={<UserList flag={true} />}></Route>
           <Route path='/editUser' element={<EditUser />}></Route>
         </Route>
         <Route path='/login' element={<UserLoginComponent />} ></Route>
