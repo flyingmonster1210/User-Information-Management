@@ -11,7 +11,16 @@ app.listen(port, () => {
 
 let allUsers = [
   {
-    id: 1,
+    id: '0',
+    username: 'test',
+    password: '123',
+    age: '18',
+    vip: false,
+    avatar: null,
+    intro: 'testing msg'
+  },
+  {
+    id: uuidv4(),
     username: 'user1',
     password: '123',
     age: '18',
@@ -20,7 +29,7 @@ let allUsers = [
     intro: 'John is a passionate entrepreneur who has successfully launched several tech startups, with expertise in software development and product management.'
   },
   {
-    id: 2,
+    id: uuidv4(),
     username: 'user2',
     password: '123',
     age: '29',
@@ -29,7 +38,7 @@ let allUsers = [
     intro: 'Sarah is a dedicated educator with a strong background in mathematics, inspiring students to explore the world of numbers and problem-solving.'
   },
   {
-    id: 3,
+    id: uuidv4(),
     username: 'user3',
     password: '123',
     age: '38',
@@ -38,7 +47,7 @@ let allUsers = [
     intro: 'Lisa is a talented artist specializing in oil paintings, known for her vibrant use of color and capturing the essence of landscapes and nature.'
   },
   {
-    id: 4,
+    id: uuidv4(),
     username: 'user4',
     password: '123',
     age: '20',

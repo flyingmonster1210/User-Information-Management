@@ -31,6 +31,12 @@ class AuthenticationServie {
     else { return '' }
   }
 
+  getLoggedUserID () {
+    let id = localStorage.getItem(USER_ID_SESSION_NAME)
+    if (id) return id
+    else return ''
+  }
+
   executedAuthentiationService (username, password) {
     // return ApiService.post('/login', { username, password })
     return ApiService.post('http://localhost:4000/login/verify', { username, password })

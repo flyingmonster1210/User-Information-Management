@@ -16,6 +16,7 @@ import {
   Upload,
 } from 'antd'
 import { useState } from 'react'
+import AuthenticationService from '../Services/AuthenticationService'
 import EditUserService from '../Services/EditUserService'
 
 const { TextArea } = Input
@@ -37,7 +38,7 @@ const EditUser = () => {
     console.log(event)
     const { age, intro, isVip, password, username } = event
     const thisUser = {
-      // id:
+      id: AuthenticationService.getLoggedUserID(),
       age: age,
       intro: intro,
       isVip: isVip,
@@ -48,7 +49,11 @@ const EditUser = () => {
       const res = await EditUserService.updateUserInfo(thisUser)
       console.log(res)
     }
-    updateInfo(thisUser)
+    try {
+      updateInfo(thisUser)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
