@@ -31,8 +31,8 @@ const MainLayout = (props) => {
   }
   const changeShowAddUser = () => {
     isAddingUserStore.changeMode(false)
-    console.log(isAddingUserStore.isAddingUser)
-    navigate('/editUser/?id=123')
+    // console.log(isAddingUserStore.isAddingUser)
+    navigate('/editUser/?id=' + AuthenticationService.getLoggedUserID())
   }
   const handleOk = () => {
     setIsModalOpen(false)
@@ -52,7 +52,7 @@ const MainLayout = (props) => {
     if (key === 'showAllUsers') {
       navigate('/')
     } else {
-      navigate('/editUser/')
+      navigate('/editUser')
     }
   }
 

@@ -11,7 +11,7 @@ app.listen(port, () => {
 
 let allUsers = [
   {
-    id: '0',
+    id: '-1',
     username: 'test',
     password: '123',
     age: '18',
@@ -20,7 +20,16 @@ let allUsers = [
     intro: 'testing msg'
   },
   {
-    id: uuidv4(),
+    id: '0',
+    username: 'new user',
+    password: 'password',
+    age: '20',
+    vip: false,
+    avatar: null,
+    intro: 'Please give a brief introduction.'
+  },
+  {
+    id: '111',
     username: 'user1',
     password: '123',
     age: '18',
@@ -29,7 +38,7 @@ let allUsers = [
     intro: 'John is a passionate entrepreneur who has successfully launched several tech startups, with expertise in software development and product management.'
   },
   {
-    id: uuidv4(),
+    id: '112',
     username: 'user2',
     password: '123',
     age: '29',
@@ -38,7 +47,7 @@ let allUsers = [
     intro: 'Sarah is a dedicated educator with a strong background in mathematics, inspiring students to explore the world of numbers and problem-solving.'
   },
   {
-    id: uuidv4(),
+    id: '113',
     username: 'user3',
     password: '123',
     age: '38',
@@ -47,7 +56,7 @@ let allUsers = [
     intro: 'Lisa is a talented artist specializing in oil paintings, known for her vibrant use of color and capturing the essence of landscapes and nature.'
   },
   {
-    id: uuidv4(),
+    id: '114',
     username: 'user4',
     password: '123',
     age: '20',
@@ -130,8 +139,26 @@ app.get('/filter', (req, res) => {
       response.userList = userList
     }
   }
-  console.log(new Date())
-  console.log(response)
+  // console.log(new Date())
+  // console.log(response)
+  res.send(response)
+})
+
+app.get('/editUser', (req, res) => {
+
+  const { userID } = req.query
+  let response = {
+    success: false,
+    thisUser: null,
+  }
+
+  if (userID) {
+    const thisUser = allUsers.filter(item => item.id === userID)
+    if (thisUser.length > 0) {
+      response.thisUser = thisUser
+    }
+  }
+
   res.send(response)
 })
 

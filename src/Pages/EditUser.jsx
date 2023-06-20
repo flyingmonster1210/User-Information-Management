@@ -1,20 +1,7 @@
 import MyBreadcrumb from '../Components/MyBreadcrumb'
 
 import { PlusOutlined } from '@ant-design/icons'
-import {
-  Button,
-  Cascader,
-  Checkbox,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Radio,
-  Select,
-  Switch,
-  TreeSelect,
-  Upload,
-} from 'antd'
+import { Button, Form, Input, InputNumber, Radio, Upload } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 import AuthenticationService from '../Services/AuthenticationService'
 import EditUserService from '../Services/EditUserService'
@@ -30,18 +17,6 @@ const normFile = (e) => {
   return e?.fileList
 }
 const EditUser = () => {
-  const [params] = useSearchParams()
-  const id = params.get('id')
-  console.log(id)
-  console.log(isAddingUserStore.isAddingUser)
-  const routeItem = [
-    {
-      title: isAddingUserStore.isAddingUser
-        ? 'Add a new user'
-        : 'Edit user: xxx',
-    },
-  ]
-
   const onFinish = (event) => {
     console.log(event)
     const { age, intro, isVip, password, username } = event
@@ -64,10 +39,39 @@ const EditUser = () => {
     }
   }
 
+  const [params] = useSearchParams()
+  const id = params.get('id') ? params.get('id') : '0'
+
   const formRef = useRef(null)
+  const [thisUser, setThisUser] = useState({
+    username: 'new user',
+    password: 'password',
+    age: '20',
+    vip: false,
+    avatar: null,
+    intro: 'Please give a brief introduction.',
+  })
   useEffect(() => {
+    const getUserInfo = async () => {
+      try {
+        const res = await EditUserService.getUserInfo(id)
+        setThisUser(
+          res.data && res.data.thisUser ? res.data.thisUser[0] : thisUser
+        )
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getUserInfo()
     formRef && formRef.current && formRef.current.resetFields()
-  }, [isAddingUserStore.isAddingUser])
+  }, [isAddingUserStore.isAddingUser, id, thisUser.username])
+  const routeItem = [
+    {
+      title: isAddingUserStore.isAddingUser
+        ? 'Add a new user'
+        : 'Edit user: ' + thisUser.username,
+    },
+  ]
 
   return (
     <div>
@@ -90,24 +94,40 @@ const EditUser = () => {
         <Form.Item
           label="Username"
           name="username"
-          initialValue={isAddingUserStore.isAddingUser ? 'adding' : 'editing'}
+          initialValue={thisUser.username ? thisUser.username : 'Error'}
         >
           <Input />
         </Form.Item>
-        <Form.Item label="Password" name="password" initialValue="password">
+        <Form.Item
+          label="Password"
+          name="password"
+          initialValue={thisUser.password ? thisUser.password : 'Error'}
+        >
           <Input />
         </Form.Item>
-        <Form.Item label="Age" name="age" initialValue="20">
+        <Form.Item
+          label="Age"
+          name="age"
+          initialValue={thisUser.age ? thisUser.age : -1}
+        >
           <InputNumber />
         </Form.Item>
-        <Form.Item label="VIP" name="isVip" initialValue="Yes">
+        <Form.Item
+          label="VIP"
+          name="isVip"
+          initialValue={thisUser.vip ? 'Yes' : 'No'}
+        >
           <Radio.Group>
             <Radio value="Yes"> Yes </Radio>
             <Radio value="No"> No </Radio>
           </Radio.Group>
         </Form.Item>
 
-        <Form.Item label="Intro" name="intro" initialValue="A brief intro">
+        <Form.Item
+          label="Intro"
+          name="intro"
+          initialValue={thisUser.intro ? thisUser.intro : 'Error'}
+        >
           <TextArea rows={4} />
         </Form.Item>
 

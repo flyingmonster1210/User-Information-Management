@@ -45,6 +45,7 @@ class AuthenticationServie {
   logout () {
     localStorage.removeItem(JWT_TOKEN_SESSION_NAME)
     localStorage.removeItem(USER_NAME_SESSION_NAME)
+    localStorage.removeItem(USER_ID_SESSION_NAME)
   }
 
 }
