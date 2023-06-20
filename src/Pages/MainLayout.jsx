@@ -31,6 +31,7 @@ const MainLayout = (props) => {
   }
   const changeShowAddUser = () => {
     isAddingUserStore.changeMode(false)
+    console.log(isAddingUserStore.isAddingUser)
     navigate('/editUser/?id=123')
   }
   const handleOk = () => {

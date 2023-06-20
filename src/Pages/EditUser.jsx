@@ -15,7 +15,7 @@ import {
   TreeSelect,
   Upload,
 } from 'antd'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import AuthenticationService from '../Services/AuthenticationService'
 import EditUserService from '../Services/EditUserService'
 import { useSearchParams } from 'react-router-dom'
@@ -33,10 +33,12 @@ const EditUser = () => {
   const [params] = useSearchParams()
   const id = params.get('id')
   console.log(id)
-
+  console.log(isAddingUserStore.isAddingUser)
   const routeItem = [
     {
-      title: id && id !== null ? 'Edit user: xxx' : 'Add a new user',
+      title: isAddingUserStore.isAddingUser
+        ? 'Add a new user'
+        : 'Edit user: xxx',
     },
   ]
 
@@ -62,11 +64,17 @@ const EditUser = () => {
     }
   }
 
+  const formRef = useRef(null)
+  useEffect(() => {
+    formRef && formRef.current && formRef.current.resetFields()
+  }, [isAddingUserStore.isAddingUser])
+
   return (
     <div>
       <MyBreadcrumb items={routeItem} />
 
       <Form
+        ref={formRef}
         onFinish={onFinish}
         labelCol={{
           span: 4,
@@ -82,7 +90,7 @@ const EditUser = () => {
         <Form.Item
           label="Username"
           name="username"
-          initialValue={id && id !== null ? 'with id' : 'without id'}
+          initialValue={isAddingUserStore.isAddingUser ? 'adding' : 'editing'}
         >
           <Input />
         </Form.Item>
