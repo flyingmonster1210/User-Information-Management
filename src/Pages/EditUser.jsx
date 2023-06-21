@@ -18,7 +18,7 @@ const normFile = (e) => {
 }
 const EditUser = () => {
   const onFinish = (event) => {
-    console.log(event)
+    // console.log('event: ',event)
     const { age, intro, isVip, password, username } = event
     const thisUser = {
       id: AuthenticationService.getLoggedUserID(),
@@ -30,7 +30,7 @@ const EditUser = () => {
     }
     const updateInfo = async (thisUser) => {
       const res = await EditUserService.updateUserInfo(thisUser)
-      console.log(res)
+      // console.log('res.data: ',res.data)
     }
     try {
       updateInfo(thisUser)
