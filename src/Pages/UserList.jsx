@@ -3,8 +3,11 @@ import { useEffect, useState } from 'react'
 import VIP from '../assets/vip.png'
 import MyBreadcrumb from '../Components/MyBreadcrumb'
 import ShowUsersService from '../Services/ShowUsersService'
+import isAddingUserStore from '../Store/isAddingUserStore'
+import { useNavigate } from 'react-router-dom'
 
 const UserList = () => {
+  const navigate = useNavigate()
   const [initLoading, setInitLoading] = useState(true)
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
@@ -33,6 +36,12 @@ const UserList = () => {
       href: '/',
     },
   ]
+
+  const changeToEditUser = (id) => {
+    isAddingUserStore.changeMode(false)
+    // console.log(id)
+    navigate('/editUser?id=' + id)
+  }
   return (
     <>
       <MyBreadcrumb items={routeItem} />
@@ -44,8 +53,9 @@ const UserList = () => {
         renderItem={(item) => (
           <List.Item
             actions={[
-              <a key="list-loadmore-edit">edit</a>,
-              <a key="list-loadmore-more">remove</a>,
+              // <a onClick={changeToEditUser} href={'/editUser?id=' + item.id}>
+              <a onClick={() => changeToEditUser(item.id)}>edit</a>,
+              <a href="list-loadmore-more">remove</a>,
             ]}
           >
             <Skeleton avatar title={false} loading={item.loading} active>

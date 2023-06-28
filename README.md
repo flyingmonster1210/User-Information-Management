@@ -12,3 +12,8 @@ $ yarn start
 
 $ cd .\Mock_Server\
 $ node app.js
+
+#### to login in
+
+username: user1
+password: 123

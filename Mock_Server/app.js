@@ -155,6 +155,7 @@ app.get('/editUser', (req, res) => {
   if (userID) {
     const thisUser = allUsers.filter(item => item.id === userID)
     if (thisUser.length > 0) {
+      response.success = true
       response.thisUser = thisUser
     }
   }
