@@ -12,14 +12,13 @@ const UserList = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [list, setList] = useState([])
+  const [removeId, setRemoveId] = useState(-100)
 
   let returnType = '-1'
   useEffect(() => {
     try {
       const getUserList = async (returnType) => {
         const response = await ShowUsersService.filterUser(returnType)
-        // console.log('response:', response)
-        // console.log(response.data.userList)
         setList(response.data.userList)
         setInitLoading(false)
       }
@@ -41,6 +40,27 @@ const UserList = () => {
     isAddingUserStore.changeMode(false)
     navigate('/editUser?id=' + id)
   }
+
+  useEffect(() => {
+    try {
+      const removeUser = async (removeId) => {
+        // console.log('removing:', removeId)
+        setLoading(true)
+        const response = await ShowUsersService.removeUser(removeId)
+        if (response && response.data && response.data.success === true) {
+          setList(response.data.newUserList)
+        }
+        setRemoveId(-100)
+        console.log('response: ', response)
+        setLoading(false)
+      }
+
+      removeUser(removeId)
+    } catch (error) {
+      console.log(error)
+    }
+  }, [removeId])
+
   return (
     <>
       <MyBreadcrumb items={routeItem} />
@@ -48,12 +68,12 @@ const UserList = () => {
         className="demo-loadmore-list"
         loading={initLoading}
         itemLayout="horizontal"
-        dataSource={list}
+        dataSource={list || []}
         renderItem={(item) => (
           <List.Item
             actions={[
               <a onClick={() => changeToEditUser(item.id)}>edit</a>,
-              <a href="list-loadmore-more">remove</a>,
+              <a onClick={() => setRemoveId(item.id)}>remove</a>,
             ]}
           >
             <Skeleton avatar title={false} loading={item.loading} active>

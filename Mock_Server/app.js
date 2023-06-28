@@ -214,19 +214,19 @@ app.post('/add', bodyParser, (req, res) => {
 app.delete('/delete', (req, res) => {
   const response = {
     success: false,
-    newUseList: null
+    newUserList: null
   }
 
   const { userID } = req.query
   if (userID) {
-    const newUseList = allUsers.filter(item => item.id !== userID)
-    response.newUseList = newUseList
+    const newUserList = allUsers.filter(item => item.id !== userID)
+    response.newUserList = newUserList
 
     const previousLength = allUsers.length
-    const newLength = newUseList.length
+    const newLength = newUserList.length
     if (newLength < previousLength) {
       response.success = true
-      allUsers = newUseList
+      allUsers = newUserList
     }
     console.log(allUsers)
   }
