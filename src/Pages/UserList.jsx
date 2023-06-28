@@ -53,7 +53,6 @@ const UserList = () => {
         renderItem={(item) => (
           <List.Item
             actions={[
-              // <a onClick={changeToEditUser} href={'/editUser?id=' + item.id}>
               <a onClick={() => changeToEditUser(item.id)}>edit</a>,
               <a href="list-loadmore-more">remove</a>,
             ]}

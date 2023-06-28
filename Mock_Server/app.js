@@ -211,6 +211,29 @@ app.post('/add', bodyParser, (req, res) => {
   res.send(response)
 })
 
+app.delete('/delete', (req, res) => {
+  const response = {
+    success: false,
+    newUseList: null
+  }
+
+  const { userID } = req.query
+  if (userID) {
+    const newUseList = allUsers.filter(item => item.id !== userID)
+    response.newUseList = newUseList
+
+    const previousLength = allUsers.length
+    const newLength = newUseList.length
+    if (newLength < previousLength) {
+      response.success = true
+      allUsers = newUseList
+    }
+    console.log(allUsers)
+  }
+
+  res.send(response)
+})
+
 
 
 
