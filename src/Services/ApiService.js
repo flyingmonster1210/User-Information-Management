@@ -14,6 +14,18 @@ class ApiService {
     })
   }
 
+  delete (url, data) {
+    return axios({
+      method: 'delete',
+      baseURL: API_BASE_URL, url,
+      timeout: 5000,
+      params: data,
+      headers: {
+
+      }
+    })
+  }
+
   post (url, data) {
     return axios({
       method: 'post',

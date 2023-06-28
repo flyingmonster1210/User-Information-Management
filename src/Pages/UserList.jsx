@@ -39,7 +39,6 @@ const UserList = () => {
 
   const changeToEditUser = (id) => {
     isAddingUserStore.changeMode(false)
-    // console.log(id)
     navigate('/editUser?id=' + id)
   }
   return (
