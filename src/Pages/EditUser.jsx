@@ -136,7 +136,7 @@ const EditUser = () => {
           valuePropName="fileList"
           getValueFromEvent={normFile}
         >
-          <Upload action="/upload.do" listType="picture-card">
+          <Upload action="http://localhost:4000/upload" listType="picture-card">
             <div>
               <PlusOutlined />
               <div

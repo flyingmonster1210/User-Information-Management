@@ -228,13 +228,21 @@ app.delete('/delete', (req, res) => {
       response.success = true
       allUsers = newUserList
     }
-    console.log(allUsers)
+    // console.log(allUsers)
   }
 
   res.send(response)
 })
 
+app.post('/upload', (req, res) => {
+  console.log('uploading in server')
+  const response = {
+    success: false,
+  }
 
+
+  res.send(response)
+})
 
 
 
