@@ -51,7 +51,7 @@ const UserList = () => {
           setList(response.data.newUserList)
         }
         setRemoveId(-100)
-        console.log('response: ', response)
+        // console.log('response: ', response)
         setLoading(false)
       }
 

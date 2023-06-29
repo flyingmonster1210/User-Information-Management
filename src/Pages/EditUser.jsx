@@ -76,6 +76,7 @@ const EditUser = () => {
   const [showPreview, setShowPreview] = useState(false)
   const [fileUrl, setFileUrl] = useState('')
   const [filename, setFilename] = useState('')
+  const [fileCount, setfileCount] = useState(0)
   const handleOnPreview = (file) => {
     setFilename(file.name || '')
     setFileUrl(file.path || file.thumbUrl)
@@ -83,8 +84,9 @@ const EditUser = () => {
   }
   const handleOnChange = ({ file, fileList }) => {
     const { status, response } = file
+    setfileCount(fileList.length)
     console.log('fileList: ', fileList)
-    console.log('file inside handleOnChange: ', file)
+    // console.log('file inside handleOnChange: ', file)
   }
 
   return (
@@ -157,17 +159,22 @@ const EditUser = () => {
             onChange={handleOnChange}
             onBeforeUpload={(file) => console.log('file before: ', file)}
             onPreview={(file) => handleOnPreview(file)}
+            maxCount={1}
           >
-            <div>
-              <PlusOutlined />
-              <div
-                style={{
-                  marginTop: 8,
-                }}
-              >
-                Upload
+            {fileCount > 0 ? (
+              ''
+            ) : (
+              <div>
+                <PlusOutlined />
+                <div
+                  style={{
+                    marginTop: 8,
+                  }}
+                >
+                  Upload
+                </div>
               </div>
-            </div>
+            )}
           </Upload>
 
           <Modal
