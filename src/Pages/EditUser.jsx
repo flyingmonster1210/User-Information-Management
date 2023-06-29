@@ -1,7 +1,7 @@
 import MyBreadcrumb from '../Components/MyBreadcrumb'
 
 import { PlusOutlined } from '@ant-design/icons'
-import { Button, Form, Input, InputNumber, Radio, Upload } from 'antd'
+import { Button, Form, Input, InputNumber, Modal, Radio, Upload } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 import AuthenticationService from '../Services/AuthenticationService'
 import EditUserService from '../Services/EditUserService'
@@ -73,6 +73,20 @@ const EditUser = () => {
     },
   ]
 
+  const [showPreview, setShowPreview] = useState(false)
+  const [fileUrl, setFileUrl] = useState('')
+  const [filename, setFilename] = useState('')
+  const handleOnPreview = (file) => {
+    setFilename(file.name || '')
+    setFileUrl(file.path || file.thumbUrl)
+    setShowPreview(true)
+  }
+  const handleOnChange = ({ file, fileList }) => {
+    const { status, response } = file
+    console.log('fileList: ', fileList)
+    console.log('file inside handleOnChange: ', file)
+  }
+
   return (
     <div>
       <MyBreadcrumb items={routeItem} />
@@ -136,7 +150,14 @@ const EditUser = () => {
           valuePropName="fileList"
           getValueFromEvent={normFile}
         >
-          <Upload action="http://localhost:4000/upload" listType="picture-card">
+          {/* https://juejin.cn/post/6914178178755854344 */}
+          <Upload
+            action="http://localhost:4000/upload"
+            listType="picture-card"
+            onChange={handleOnChange}
+            onBeforeUpload={(file) => console.log('file before: ', file)}
+            onPreview={(file) => handleOnPreview(file)}
+          >
             <div>
               <PlusOutlined />
               <div
@@ -148,6 +169,19 @@ const EditUser = () => {
               </div>
             </div>
           </Upload>
+
+          <Modal
+            open={showPreview}
+            onCancel={() => setShowPreview(false)}
+            footer={null}
+            title={filename}
+          >
+            <img
+              src={fileUrl}
+              alt="cannot find your image"
+              style={{ width: '100%' }}
+            />
+          </Modal>
         </Form.Item>
         <Form.Item label="Submit">
           <Button htmlType="submit">Submit</Button>

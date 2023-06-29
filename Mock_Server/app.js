@@ -234,14 +234,37 @@ app.delete('/delete', (req, res) => {
   res.send(response)
 })
 
-app.post('/upload', (req, res) => {
-  console.log('uploading in server')
-  const response = {
-    success: false,
-  }
+// https://anandzhang.com/posts/frontend/14
+// https://anandzhang.com/posts/frontend/15
+const path = require('path')
+const multer = require('multer')
+const upload = multer({
+  storage: multer.diskStorage({
+    destination (req, file, cb) {
+      cb(null, 'public/uploads')
+    },
+    filename (req, file, cb) {
+      const extname = path.extname(file.originalname)
+      cb(null, Date.now() + extname)
+    }
+  })
+})
 
 
-  res.send(response)
+app.post('/upload', upload.single('file'), (req, res) => {
+  // console.log('------------------------------------------')
+  // console.log('req.file: ',req.file);
+  // console.log('------------------------------------------')
+  const { file: { filename, path } } = req
+
+  res.json({
+    ok: true,
+    msg: 'uploading',
+    data: {
+      name: filename,
+      url: path
+    }
+  })
 })
 
 
