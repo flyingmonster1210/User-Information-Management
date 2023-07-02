@@ -85,8 +85,12 @@ const EditUser = () => {
   const handleOnChange = ({ file, fileList }) => {
     const { status, response } = file
     setfileCount(fileList.length)
-    console.log('fileList: ', fileList)
+    // console.log('fileList: ', fileList)
+    // console.log('data: ', data)
     // console.log('file inside handleOnChange: ', file)
+  }
+  const handleOnRemove = (file) => {
+    console.log('file in remove: ', file)
   }
 
   return (
@@ -157,6 +161,7 @@ const EditUser = () => {
             action="http://localhost:4000/upload"
             listType="picture-card"
             onChange={handleOnChange}
+            onRemove={handleOnRemove}
             onBeforeUpload={(file) => console.log('file before: ', file)}
             onPreview={(file) => handleOnPreview(file)}
             maxCount={1}

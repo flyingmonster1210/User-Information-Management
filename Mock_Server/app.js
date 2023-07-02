@@ -4,6 +4,21 @@ const app = express()
 const cors = require('cors')
 const port = 4000
 const bodyParser = require('body-parser').json()
+const fs = require('fs')
+
+const path = require('path')
+const multer = require('multer')
+const upload = multer({
+  storage: multer.diskStorage({
+    destination (req, file, cb) {
+      cb(null, 'public/uploads')
+    },
+    filename (req, file, cb) {
+      const extname = path.extname(file.originalname)
+      cb(null, Date.now() + extname)
+    }
+  })
+})
 
 app.listen(port, () => {
   console.log(`Mock Server is listening on port ${port}`)
@@ -75,6 +90,12 @@ app.use((req, res, next) => {
 app.use(cors({
   origin: 'http://localhost:3000'
 }))
+
+app.options('*', (req, res, next) => {
+  res.setHeader('Access-Control-Allow-Methods', 'POST', 'DELETE', 'PUT')
+  res.setHeader('Access-Control-Allow-Headers', 'x-requested-with,Content-Type')
+  next()
+})
 
 app.get('/login/verify', (req, res) => {
   const { username, password } = req.query
@@ -211,6 +232,7 @@ app.post('/add', bodyParser, (req, res) => {
   res.send(response)
 })
 
+
 app.delete('/delete', (req, res) => {
   const response = {
     success: false,
@@ -236,19 +258,6 @@ app.delete('/delete', (req, res) => {
 
 // https://anandzhang.com/posts/frontend/14
 // https://anandzhang.com/posts/frontend/15
-const path = require('path')
-const multer = require('multer')
-const upload = multer({
-  storage: multer.diskStorage({
-    destination (req, file, cb) {
-      cb(null, 'public/uploads')
-    },
-    filename (req, file, cb) {
-      const extname = path.extname(file.originalname)
-      cb(null, Date.now() + extname)
-    }
-  })
-})
 
 
 app.post('/upload', upload.single('file'), (req, res) => {
@@ -257,13 +266,25 @@ app.post('/upload', upload.single('file'), (req, res) => {
   // console.log('------------------------------------------')
   const { file: { filename, path } } = req
 
-  res.json({
-    ok: true,
-    msg: 'uploading',
-    data: {
+  res.send({
+    success: true,
+    picInfo: {
       name: filename,
       url: path
     }
+  })
+})
+
+app.use(express.json())
+app.delete('/deleteImg', (req, res, next) => {
+  const { path } = req.body
+  console.log('path: ', path)
+  fs.unlink(path, (err) => {
+    if (err) return next(err)
+    res.send({
+      success: true,
+      message: 'Img is deleted.'
+    })
   })
 })
 
