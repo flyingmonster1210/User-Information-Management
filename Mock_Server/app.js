@@ -282,7 +282,9 @@ app.delete('/deleteImg', bodyParser, (req, res) => {
     message: 'default message...'
   }
   const body = req.body
+  console.log('body: ', body)
   if (body && Object.keys(body).length > 0) {
+    const { path } = body
     console.log('path: ', path)
     fs.unlink(path, (error) => {
       if (error) {

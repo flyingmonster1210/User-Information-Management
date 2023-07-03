@@ -26,6 +26,18 @@ class ApiService {
     })
   }
 
+  deleteWithBody (url, data) {
+    return axios({
+      method: 'delete',
+      baseURL: API_BASE_URL, url,
+      timeout: 5000,
+      data: data,
+      headers: {
+
+      }
+    })
+  }
+
   post (url, data) {
     return axios({
       method: 'post',
