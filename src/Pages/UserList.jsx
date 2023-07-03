@@ -78,7 +78,13 @@ const UserList = () => {
           >
             <Skeleton avatar title={false} loading={item.loading} active>
               <List.Item.Meta
-                avatar={item.username + '.png'}
+                // avatar={item.avatar || item.username + '.png'}
+                avatar={
+                  <Avatar
+                    src={'http://localhost:4000/getAvatar?path=' + item.avatar}
+                    alt={item.username + '.png'}
+                  />
+                }
                 title={'Introduction of ' + item.username}
                 description={item.intro || 'Nothing here!'}
               />

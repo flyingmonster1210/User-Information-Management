@@ -49,7 +49,7 @@ let allUsers = [
     password: '123',
     age: '18',
     vip: false,
-    avatar: 'Mock_Server\\public\\uploads\\111.png',
+    avatar: 'public\\uploads\\111.png',
     intro: 'John is a passionate entrepreneur who has successfully launched several tech startups, with expertise in software development and product management.'
   },
   {
@@ -58,7 +58,7 @@ let allUsers = [
     password: '123',
     age: '29',
     vip: true,
-    avatar: 'Mock_Server\\public\\uploads\\112.png',
+    avatar: 'public\\uploads\\112.png',
     intro: 'Sarah is a dedicated educator with a strong background in mathematics, inspiring students to explore the world of numbers and problem-solving.'
   },
   {
@@ -67,7 +67,7 @@ let allUsers = [
     password: '123',
     age: '38',
     vip: true,
-    avatar: 'Mock_Server\\public\\uploads\\113.png',
+    avatar: 'public\\uploads\\113.png',
     intro: 'Lisa is a talented artist specializing in oil paintings, known for her vibrant use of color and capturing the essence of landscapes and nature.'
   },
   {
@@ -76,7 +76,7 @@ let allUsers = [
     password: '123',
     age: '20',
     vip: false,
-    avatar: 'Mock_Server\\public\\uploads\\114.png',
+    avatar: 'public\\uploads\\114.png',
     intro: 'Mark is a seasoned financial analyst with a deep understanding of market trends, providing strategic advice to clients and helping them make informed investment decisions.'
   }
 ]
@@ -261,11 +261,8 @@ app.delete('/delete', (req, res) => {
 
 
 app.post('/upload', upload.single('file'), (req, res) => {
-  // console.log('------------------------------------------')
-  // console.log('req.file: ',req.file);
-  // console.log('------------------------------------------')
   const { file: { filename, path } } = req
-
+  console.log('path in upload:: ', path)
   res.send({
     success: true,
     picInfo: {
@@ -275,7 +272,6 @@ app.post('/upload', upload.single('file'), (req, res) => {
   })
 })
 
-// app.use(express.json())
 app.delete('/deleteImg', bodyParser, (req, res) => {
   const response = {
     success: false,
@@ -285,6 +281,7 @@ app.delete('/deleteImg', bodyParser, (req, res) => {
   if (body && Object.keys(body).length > 0) {
     const { path } = body
     fs.unlink(path, (error) => {
+      console.log('path in deleteImg: ', path)
       if (error) {
         response.message = error
         res.send(response)
@@ -295,6 +292,20 @@ app.delete('/deleteImg', bodyParser, (req, res) => {
         res.send(response)
       }
     })
+  }
+})
+
+app.get('/getAvatar', (req, res) => {
+  var { path } = req.query
+  if (path) {
+    path = __dirname + '\\' + path
+    // console.log('path: ', path)
+    if (fs.existsSync(path)) {
+      res.sendFile(path)
+    }
+    else {
+      res.sendFile(__dirname + '\\' + 'public\\uploads\\default.png')
+    }
   }
 })
 
