@@ -10,7 +10,7 @@ class EditUserService {
   }
 
   deleteImage (path) {
-    return ApiService.delete('http://localhost4000/deleteImg', { path })
+    return ApiService.deleteWithBody('http://localhost:4000/deleteImg', { path })
   }
 }
 
