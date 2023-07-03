@@ -49,7 +49,7 @@ let allUsers = [
     password: '123',
     age: '18',
     vip: false,
-    avatar: null,
+    avatar: 'Mock_Server\\public\\uploads\\111.png',
     intro: 'John is a passionate entrepreneur who has successfully launched several tech startups, with expertise in software development and product management.'
   },
   {
@@ -58,7 +58,7 @@ let allUsers = [
     password: '123',
     age: '29',
     vip: true,
-    avatar: null,
+    avatar: 'Mock_Server\\public\\uploads\\112.png',
     intro: 'Sarah is a dedicated educator with a strong background in mathematics, inspiring students to explore the world of numbers and problem-solving.'
   },
   {
@@ -67,7 +67,7 @@ let allUsers = [
     password: '123',
     age: '38',
     vip: true,
-    avatar: null,
+    avatar: 'Mock_Server\\public\\uploads\\113.png',
     intro: 'Lisa is a talented artist specializing in oil paintings, known for her vibrant use of color and capturing the essence of landscapes and nature.'
   },
   {
@@ -76,7 +76,7 @@ let allUsers = [
     password: '123',
     age: '20',
     vip: false,
-    avatar: null,
+    avatar: 'Mock_Server\\public\\uploads\\114.png',
     intro: 'Mark is a seasoned financial analyst with a deep understanding of market trends, providing strategic advice to clients and helping them make informed investment decisions.'
   }
 ]
@@ -282,10 +282,8 @@ app.delete('/deleteImg', bodyParser, (req, res) => {
     message: 'default message...'
   }
   const body = req.body
-  console.log('body: ', body)
   if (body && Object.keys(body).length > 0) {
     const { path } = body
-    console.log('path: ', path)
     fs.unlink(path, (error) => {
       if (error) {
         response.message = error
