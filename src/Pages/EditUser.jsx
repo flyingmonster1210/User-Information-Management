@@ -89,8 +89,16 @@ const EditUser = () => {
     // console.log('data: ', data)
     // console.log('file inside handleOnChange: ', file)
   }
-  const handleOnRemove = (file) => {
+  const handleOnRemove = async (file) => {
     console.log('file in remove: ', file)
+    try {
+      const url = file.response.picInfo.url
+      console.log('url: ', url)
+      const response = await EditUserService.deleteImage(url)
+      console.log(response)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (

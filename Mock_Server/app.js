@@ -215,7 +215,7 @@ app.post('/add', bodyParser, (req, res) => {
 
   const body = req.body
   // console.log('body:', body)
-  if (Object.keys(body).length > 0) {
+  if (body && Object.keys(body).length > 0) {
     response.thisNewUser = {
       id: uuidv4(),
       username: body.username,
@@ -275,25 +275,29 @@ app.post('/upload', upload.single('file'), (req, res) => {
   })
 })
 
-app.delete('/deleteImg', (req, res,) => {
+// app.use(express.json())
+app.delete('/deleteImg', bodyParser, (req, res) => {
   const response = {
     success: false,
     message: 'default message...'
   }
-
-  const { path } = req.query
-  fs.unlink(path, (err) => {
-    if (err) {
-      response.message = err
-      res.send(response)
-    }
-    else {
-      response.message = 'image has been deleted'
-      response.success = true
-      res.send(response)
-    }
-  })
+  const body = req.body
+  if (body && Object.keys(body).length > 0) {
+    console.log('path: ', path)
+    fs.unlink(path, (error) => {
+      if (error) {
+        response.message = error
+        res.send(response)
+      }
+      else {
+        response.success = true
+        response.message = 'image has been deleted'
+        res.send(response)
+      }
+    })
+  }
 })
+
 
 
 
