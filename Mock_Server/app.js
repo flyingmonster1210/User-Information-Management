@@ -194,7 +194,7 @@ app.put('/update', bodyParser, (req, res) => {
   const body = req.body
   if (body) {
     const index = allUsers.findIndex(item => item.id === body.id)
-    // console.log('index:', index)
+    console.log('update->index:', index)
     if (index >= 0) {
       allUsers[index] = body
       response.success = true
@@ -214,7 +214,7 @@ app.post('/add', bodyParser, (req, res) => {
   }
 
   const body = req.body
-  // console.log('body:', body)
+  console.log('add->body:', body)
   if (body && Object.keys(body).length > 0) {
     response.thisNewUser = {
       id: uuidv4(),

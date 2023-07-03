@@ -5,7 +5,7 @@ import { Button, Form, Input, InputNumber, Modal, Radio, Upload } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 import AuthenticationService from '../Services/AuthenticationService'
 import EditUserService from '../Services/EditUserService'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import isAddingUserStore from '../Store/isAddingUserStore'
 
@@ -17,8 +17,9 @@ const normFile = (e) => {
   return e?.fileList
 }
 const EditUser = () => {
+  const navigate = useNavigate()
   const onFinish = (event) => {
-    // console.log('event: ',event)
+    console.log('event: ', event)
     const { age, intro, isVip, password, username } = event
     const thisUser = {
       id: AuthenticationService.getLoggedUserID(),
@@ -27,13 +28,20 @@ const EditUser = () => {
       isVip: isVip,
       password: password,
       username: username,
+      avatar: event.avatar ? event.avatar : null,
     }
     const updateInfo = async (thisUser) => {
       const res = await EditUserService.updateUserInfo(thisUser)
       // console.log('res.data: ',res.data)
     }
+    const addNewUser = async (newUser) => {
+      const res = await EditUserService.addNewUserInfo(newUser)
+    }
     try {
-      updateInfo(thisUser)
+      isAddingUserStore.isAddingUser
+        ? addNewUser(thisUser)
+        : updateInfo(thisUser)
+      navigate('/')
     } catch (error) {
       console.log(error)
     }
