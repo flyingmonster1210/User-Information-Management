@@ -275,16 +275,23 @@ app.post('/upload', upload.single('file'), (req, res) => {
   })
 })
 
-app.use(express.json())
-app.delete('/deleteImg', (req, res, next) => {
-  const { path } = req.body
-  console.log('path: ', path)
+app.delete('/deleteImg', (req, res,) => {
+  const response = {
+    success: false,
+    message: 'default message...'
+  }
+
+  const { path } = req.query
   fs.unlink(path, (err) => {
-    if (err) return next(err)
-    res.send({
-      success: true,
-      message: 'Img is deleted.'
-    })
+    if (err) {
+      response.message = err
+      res.send(response)
+    }
+    else {
+      response.message = 'image has been deleted'
+      response.success = true
+      res.send(response)
+    }
   })
 })
 

@@ -8,6 +8,10 @@ class EditUserService {
   getUserInfo (userID) {
     return ApiService.get('http://localhost:4000/editUser', { userID })
   }
+
+  deleteImage (path) {
+    return ApiService.delete('http://localhost4000/deleteImg', path)
+  }
 }
 
 export default new EditUserService()
