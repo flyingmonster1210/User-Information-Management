@@ -20,10 +20,11 @@ const EditUser = () => {
   const navigate = useNavigate()
   const [params] = useSearchParams()
   const id = params.get('id') ? params.get('id') : '0'
+  const [avatarUrl, setAvatarUrl] = useState('null')
 
   const onFinish = (event) => {
     // console.log('id: ', id)
-    // console.log('event: ', event)
+    console.log('event: ', event)
     const { age, intro, isVip, password, username } = event
     const thisUser = {
       id: id,
@@ -32,7 +33,7 @@ const EditUser = () => {
       isVip: isVip,
       password: password,
       username: username,
-      avatar: event.avatar ? event.avatar : null,
+      avatar: avatarUrl,
     }
     const updateInfo = async (thisUser) => {
       const res = await EditUserService.updateUserInfo(thisUser)
@@ -93,14 +94,13 @@ const EditUser = () => {
   const handleOnChange = ({ file, fileList }) => {
     const { status, response } = file
     setfileCount(fileList.length)
-    // console.log('fileList: ', fileList)
-    // console.log('data: ', data)
-    // console.log('file inside handleOnChange: ', file)
+    if (response && response.picInfo) setAvatarUrl(response.picInfo.url)
   }
   const handleOnRemove = async (file) => {
     try {
       const url = file.response.picInfo.url
       await EditUserService.deleteImage(url)
+      setAvatarUrl('null')
     } catch (error) {
       console.log(error)
     }
