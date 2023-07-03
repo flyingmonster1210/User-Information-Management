@@ -195,6 +195,7 @@ app.put('/update', bodyParser, (req, res) => {
   if (body) {
     const index = allUsers.findIndex(item => item.id === body.id)
     console.log('update->index:', index)
+    console.log(body)
     if (index >= 0) {
       allUsers[index] = body
       response.success = true

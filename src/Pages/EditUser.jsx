@@ -5,7 +5,7 @@ import { Button, Form, Input, InputNumber, Modal, Radio, Upload } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 import AuthenticationService from '../Services/AuthenticationService'
 import EditUserService from '../Services/EditUserService'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import isAddingUserStore from '../Store/isAddingUserStore'
 
@@ -18,11 +18,15 @@ const normFile = (e) => {
 }
 const EditUser = () => {
   const navigate = useNavigate()
+  const [params] = useSearchParams()
+  const id = params.get('id') ? params.get('id') : '0'
+
   const onFinish = (event) => {
-    console.log('event: ', event)
+    // console.log('id: ', id)
+    // console.log('event: ', event)
     const { age, intro, isVip, password, username } = event
     const thisUser = {
-      id: AuthenticationService.getLoggedUserID(),
+      id: id,
       age: age,
       intro: intro,
       isVip: isVip,
@@ -32,7 +36,6 @@ const EditUser = () => {
     }
     const updateInfo = async (thisUser) => {
       const res = await EditUserService.updateUserInfo(thisUser)
-      // console.log('res.data: ',res.data)
     }
     const addNewUser = async (newUser) => {
       const res = await EditUserService.addNewUserInfo(newUser)
@@ -46,9 +49,6 @@ const EditUser = () => {
       console.log(error)
     }
   }
-
-  const [params] = useSearchParams()
-  const id = params.get('id') ? params.get('id') : '0'
 
   const formRef = useRef(null)
   const [thisUser, setThisUser] = useState({
