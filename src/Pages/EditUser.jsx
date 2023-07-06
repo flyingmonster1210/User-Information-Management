@@ -24,9 +24,10 @@ const EditUser = () => {
 
   const onFinish = (event) => {
     // console.log('id: ', id)
-    console.log('event: ', event)
+    // console.log('event: ', event)
+    // console.log('avatarUrl: ', avatarUrl)
     const { age, intro, isVip, password, username } = event
-    const thisUser = {
+    const thisNewUser = {
       id: id,
       age: age,
       intro: intro,
@@ -35,16 +36,17 @@ const EditUser = () => {
       username: username,
       avatar: avatarUrl,
     }
-    const updateInfo = async (thisUser) => {
-      const res = await EditUserService.updateUserInfo(thisUser)
+    // console.log('thisNewUser: ', thisNewUser)
+    const updateInfo = async (thisNewUser) => {
+      const res = await EditUserService.updateUserInfo(thisNewUser)
     }
     const addNewUser = async (newUser) => {
       const res = await EditUserService.addNewUserInfo(newUser)
     }
     try {
       isAddingUserStore.isAddingUser
-        ? addNewUser(thisUser)
-        : updateInfo(thisUser)
+        ? addNewUser(thisNewUser)
+        : updateInfo(thisNewUser)
       navigate('/')
     } catch (error) {
       console.log(error)
@@ -52,14 +54,16 @@ const EditUser = () => {
   }
 
   const formRef = useRef(null)
-  const [thisUser, setThisUser] = useState({
+  const defaultUserInfo = {
     username: 'new user',
     password: 'password',
     age: '20',
     vip: false,
     avatar: null,
     intro: 'Please give a brief introduction.',
-  })
+  }
+  const [fileList, setFileList] = useState(null)
+  const [thisUser, setThisUser] = useState(defaultUserInfo)
   useEffect(() => {
     const getUserInfo = async () => {
       try {
@@ -67,6 +71,19 @@ const EditUser = () => {
         setThisUser(
           res.data && res.data.thisUser ? res.data.thisUser[0] : thisUser
         )
+        if (thisUser !== defaultUserInfo) {
+          setfileCount(1)
+          setFileList([
+            { url: 'http://localhost:4000/getAvatar?path=' + thisUser.avatar },
+          ])
+        }
+        // console.log('thisUser: ', thisUser)
+        // console.log(
+        //   'fileList: ',
+        //   fileList,
+        //   ', load? ',
+        //   thisUser !== defaultUserInfo
+        // )
       } catch (error) {
         console.log(error)
       }
@@ -94,13 +111,15 @@ const EditUser = () => {
   const handleOnChange = ({ file, fileList }) => {
     const { status, response } = file
     setfileCount(fileList.length)
+    setFileList(fileList)
     if (response && response.picInfo) setAvatarUrl(response.picInfo.url)
   }
   const handleOnRemove = async (file) => {
     try {
-      const url = file.response.picInfo.url
+      const url = file.url || file.response.picInfo.url
       await EditUserService.deleteImage(url)
       setAvatarUrl('null')
+      setFileList([])
     } catch (error) {
       console.log(error)
     }
@@ -173,6 +192,7 @@ const EditUser = () => {
           <Upload
             action="http://localhost:4000/upload"
             listType="picture-card"
+            fileList={fileList}
             onChange={handleOnChange}
             onRemove={handleOnRemove}
             onBeforeUpload={(file) => console.log('file before: ', file)}

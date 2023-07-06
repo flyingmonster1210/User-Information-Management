@@ -223,7 +223,7 @@ app.post('/add', bodyParser, (req, res) => {
       password: body.password,
       age: body.age,
       vip: body.vip,
-      avator: body.avator ? body.avator : null,
+      avatar: body.avatar ? body.avatar : null,
       intro: body.intro,
     }
   }
